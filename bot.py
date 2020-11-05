@@ -124,10 +124,4 @@ async def unban(ctx, *, member):
             await ctx.send(f"{member.mention} was unbanned")
             return
 
-
-@client.command()
-async def play(ctx, source):
-    source.play()
-
-
 client.run(TOKEN)
