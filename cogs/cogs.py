@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import random
+import asyncio
 
 
 class Cogs(commands.Cog):
@@ -10,9 +11,26 @@ class Cogs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game("Listening to "
-                                                                                                      "Not_Thareesh 魅"))
         print("Bot is online")
+
+        async def change_presence():
+            await self.client.wait_until_ready()
+
+            while not self.client.is_closed():
+                statuses = ["Listening to Not_Thareesh 魅",
+                            "Listening to Not_Thareesh Server",
+                            "Processing the code",
+                            "Playing a game which IDK",
+                            "I'm Busy",
+                            "I'm being Bullied",
+                            "Follow Not_Thareesh on Twitch"]
+
+                status = random.choice(statuses)
+                print(status)
+                await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
+                await asyncio.sleep(30)
+
+        self.client.loop.create_task(change_presence())
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
