@@ -26,7 +26,6 @@ class Cogs(commands.Cog):
                             "Follow Not_Thareesh on Twitch"]
 
                 status = random.choice(statuses)
-                print(status)
                 await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
                 await asyncio.sleep(30)
 
