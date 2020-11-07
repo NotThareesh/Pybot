@@ -17,19 +17,28 @@ class Cogs(commands.Cog):
             await self.client.wait_until_ready()
 
             while not self.client.is_closed():
-                statuses = ["Listening to Not_Thareesh 魅",
-                            "Listening to Not_Thareesh Server",
+                statuses = ["I'm Busy",
+                            "Listening to 'PYTHON BOT' Server",
+                            "Listening to Not_Thareesh 魅",
                             "Processing the code",
-                            "Playing a game which IDK",
-                            "I'm Busy",
+                            "Playing Fortnite",
                             "I'm being Bullied",
                             "Follow Not_Thareesh on Twitch"]
 
                 status = random.choice(statuses)
-                await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
+
+                if status == "I'm Busy":
+                    await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
+
+                elif status == "Follow Not_Thareesh on Twitch":
+                    await self.client.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name=status,
+                                                                                                            url="https://www.twitch.tv/not_thareesh"))
+                else:
+                    await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
+
                 await asyncio.sleep(30)
 
-        self.client.loop.create_task(change_presence())
+            self.client.loop.create_task(change_presence())
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
