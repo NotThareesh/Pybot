@@ -36,7 +36,7 @@ class Cogs(commands.Cog):
                 else:
                     await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
 
-                print("Bot Status changed")
+                print(f"Bot Status changed to {status}")
                 await asyncio.sleep(30)
 
         self.client.loop.create_task(change_presence())
