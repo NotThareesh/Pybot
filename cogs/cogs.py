@@ -38,7 +38,7 @@ class Cogs(commands.Cog):
 
                 await asyncio.sleep(30)
 
-            self.client.loop.create_task(change_presence())
+        self.client.loop.create_task(change_presence())
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
