@@ -4,7 +4,7 @@ import random
 import asyncio
 
 
-class Cogs(commands.Cog):
+class Commands(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -136,4 +136,4 @@ class Cogs(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(Cogs(client))
+    client.add_cog(Commands(client))
