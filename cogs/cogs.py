@@ -99,7 +99,7 @@ class Commands(commands.Cog):
         await ctx.send("Yeahhh Boii, Its Mr. Stark <:Stark:773581990058131466> ")
 
     @commands.command()
-    async def kick(self, ctx, member: discord.Member, *, reason=None):
+    async def kick(self, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         if reason:
             channel = self.client.get_channel(773736558259994624)
@@ -114,11 +114,11 @@ class Commands(commands.Cog):
         await ctx.send(f"Here is an instant invite to your server:\n{link}")
 
     @commands.command()
-    async def ban(self, ctx, member: discord.Member, *, reason=None):
+    async def ban(self, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 
     @commands.command()
-    async def ban(self, ctx, member: discord.Member, *, reason=None):
+    async def ban(self, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 
     @commands.command()
@@ -136,20 +136,30 @@ class Commands(commands.Cog):
 
     @commands.command(aliases=["server", "info"])
     async def server_info(self, ctx):
+
         name = str(ctx.guild.name)
         owner = str(ctx.guild.owner)
         server_id = str(ctx.guild.id)
-        region = str(ctx.guild.region)
+        region = str(ctx.guild.region).capitalize()
         icon = str(ctx.guild.icon_url)
         member_count = str(ctx.guild.member_count)
+        bot_users = 0
+        for i in ctx.guild.members:
+            if i.bot:
+                bot_users += 1
+        text_channels = str(len(ctx.guild.text_channels))
+        voice_channels = str(len(ctx.guild.voice_channels))
 
-        embed = discord.Embed(title=name+" Server Information", color=discord.Color.red())
+        embed = discord.Embed(title=name + " Server Information", color=discord.Color.red())
 
-        embed.set_thumbnail(url=icon)
         embed.add_field(name="Owner", value=owner, inline=False)
         embed.add_field(name="Server ID", value=server_id)
-        embed.add_field(name="Region", value=region.capitalize())
-        embed.add_field(name="Member Count", value=member_count, inline=False)
+        embed.add_field(name="Region", value=region, inline=False)
+        embed.add_field(name="Member Count", value=member_count)
+        embed.add_field(name="Bots", value=str(bot_users))
+        embed.add_field(name="Text Channels", value=text_channels, inline=False)
+        embed.add_field(name="Voice Channels", value=voice_channels)
+        embed.set_thumbnail(url=icon)
 
         await ctx.send(embed=embed)
 
