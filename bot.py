@@ -4,7 +4,7 @@ from discord.ext import commands
 
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
 client = commands.Bot(command_prefix="!", intents=intents)
-TOKEN = 'NzczMzgwMDYzNDAzNDQyMTk3.X6IYTw.PZ0W120QywJgAXQVdzPWo5xzRns'
+TOKEN = 'NzczMzgwMDYzNDAzNDQyMTk3.X6IYTw.PZ0W120QywJgAXQVdzPWo5xzRns'  # This token doesn't work anymore LOL
 
 
 @client.command()
@@ -16,10 +16,6 @@ async def load(ctx, extension):
 async def unload(ctx, extension):
     client.unload_extension(f"cogs.{extension}")
 
-# Guild = 773381459306217502
-#
-# for i in discord.Guild.member_count:
-#     print(i)
 
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
