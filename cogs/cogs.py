@@ -12,6 +12,7 @@ class Commands(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Bot is online")
+        print(f"Logged in as: {self.client.user}")
 
         async def change_presence():
             await self.client.wait_until_ready()
@@ -36,7 +37,6 @@ class Commands(commands.Cog):
                 else:
                     await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
 
-                print(f"Bot Status changed to {status}")
                 await asyncio.sleep(30)
 
         self.client.loop.create_task(change_presence())
