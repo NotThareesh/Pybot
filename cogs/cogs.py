@@ -21,7 +21,7 @@ class Commands(commands.Cog):
                             "Listening to 'PYTHON BOT' Server",
                             "Listening to Not_Thareesh 魅",
                             "Processing the code",
-                            "Playing Fortnite",
+                            "Fortnite",
                             "I'm being Bullied",
                             "Follow Not_Thareesh on Twitch"]
 
@@ -133,6 +133,25 @@ class Commands(commands.Cog):
                 await ctx.guild.unban(user)
                 await ctx.send(f"{member.mention} was unbanned")
                 return
+
+    @commands.command(aliases=["server", "info"])
+    async def server_info(self, ctx):
+        name = str(ctx.guild.name)
+        owner = str(ctx.guild.owner)
+        server_id = str(ctx.guild.id)
+        region = str(ctx.guild.region)
+        icon = str(ctx.guild.icon_url)
+        member_count = str(ctx.guild.member_count)
+
+        embed = discord.Embed(title=name+" Server Information", color=discord.Color.red())
+
+        embed.set_thumbnail(url=icon)
+        embed.add_field(name="Owner", value=owner, inline=False)
+        embed.add_field(name="Server ID", value=server_id)
+        embed.add_field(name="Region", value=region.capitalize())
+        embed.add_field(name="Member Count", value=member_count, inline=False)
+
+        await ctx.send(embed=embed)
 
 
 def setup(client):
