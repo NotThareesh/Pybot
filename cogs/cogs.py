@@ -13,33 +13,37 @@ class Commands(commands.Cog):
     async def on_ready(self):
         print("Bot is online")
         print(f"Logged in as: {self.client.user}")
+        self.client.loop.create_task(self.ch_pr())
 
-        async def change_presence():
-            await self.client.wait_until_ready()
+    @commands.Cog.listener()
+    async def ch_pr(self):
+        await self.client.wait_until_ready()
 
-            while not self.client.is_closed():
-                statuses = ["I'm Busy",
-                            "Listening to 'PYTHON BOT' Server",
-                            "Listening to Not_Thareesh 魅",
-                            "Processing the code",
-                            "Fortnite",
-                            "I'm being Bullied",
-                            "Follow Not_Thareesh on Twitch"]
+        while not self.client.is_closed():
+            statuses = ["Memes",
+                        "I'm Busy",
+                        "PYTHON BOT Server",
+                        "Not_Thareesh",
+                        "Compiling the code",
+                        "Fortnite",
+                        "Follow Not_Thareesh on Twitch"]
 
-                status = random.choice(statuses)
+            status = random.choice(statuses)
 
-                if status == "I'm Busy":
-                    await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
+            if status == "I'm Busy":
+                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
 
-                elif status == "Follow Not_Thareesh on Twitch":
-                    await self.client.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name=status,
-                                                                                                            url="https://www.twitch.tv/not_thareesh"))
-                else:
-                    await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name=status))
+            elif status == "Follow Not_Thareesh on Twitch":
+                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Streaming(
+                    name=status, url="https://www.twitch.tv/not_thareesh"))
 
-                await asyncio.sleep(30)
+            elif status == "Memes":
+                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Activity(type=discord.ActivityType.watching, name=status))
 
-        self.client.loop.create_task(change_presence())
+            else:
+                await self.client.change_presence(activity=discord.Game(name=status))
+
+            await asyncio.sleep(30)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
