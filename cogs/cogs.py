@@ -23,7 +23,7 @@ class Commands(commands.Cog):
             statuses = ["Memes",
                         "I'm Busy",
                         "PYTHON BOT Server",
-                        "Not_Thareesh",
+                        "Not_Thareesh's Stream",
                         "Compiling the code",
                         "Fortnite",
                         "Follow Not_Thareesh on Twitch"]
@@ -33,12 +33,18 @@ class Commands(commands.Cog):
             if status == "I'm Busy":
                 await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
 
-            elif status == "Follow Not_Thareesh on Twitch":
+            if status == "Follow Not_Thareesh on Twitch":
                 await self.client.change_presence(status=discord.Status.dnd, activity=discord.Streaming(
                     name=status, url="https://www.twitch.tv/not_thareesh"))
 
-            elif status == "Memes":
-                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+            if status == "PYTHON BOT Server" or "Not_Thareesh's Stream" or "Memes":
+                await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+
+            if status == "Fortnite":
+                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game, name=status)
+
+            if status == "Compiling the code":
+                await self.client.change_presence(activity=discord.Game(name=status))
 
             else:
                 await self.client.change_presence(activity=discord.Game(name=status))
