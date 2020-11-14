@@ -8,7 +8,7 @@ statuses = ["I'm Busy",
             "Compiling the code",
             "Fortnite",
             "Follow Not_Thareesh on Twitch",
-            "p!"]
+            "!"]
 
 
 class Commands(commands.Cog):
@@ -86,7 +86,7 @@ class Commands(commands.Cog):
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
 
     @commands.command()
-    async def clear(self, ctx, amount=7):
+    async def clear(self, ctx, amount: int):
         if amount == 1:
             delete_amount = 3
             await ctx.send(f"Tidying up your server")
@@ -158,6 +158,11 @@ class Commands(commands.Cog):
         embed.set_thumbnail(url=icon)
 
         await ctx.send(embed=embed)
+
+    @clear.error
+    async def clear_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("Please specify the amount of messages to delete.")
 
 
 def setup(client):

@@ -3,8 +3,8 @@ import os
 from discord.ext import commands
 
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
-client = commands.Bot(command_prefix="p!", intents=intents)
-TOKEN = 'NzczMzgwMDYzNDAzNDQyMTk3.X6IYTw.NzTQ-AiZyTNqMecmrYF77p17VSY'
+client = commands.Bot(command_prefix="!", intents=intents)
+TOKEN = ''
 
 
 @client.command()
