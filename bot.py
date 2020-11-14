@@ -4,7 +4,7 @@ from discord.ext import commands
 
 intents = discord.Intents(messages=True, guilds=True, reactions=True, members=True, presences=True)
 client = commands.Bot(command_prefix="!", intents=intents, help_command=None)
-TOKEN = ''
+TOKEN = 'NzczMzgwMDYzNDAzNDQyMTk3.X6IYTw.08Fy6S0lrQi3aJ6nKw4kijevWkY'
 
 
 @client.command()
