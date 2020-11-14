@@ -44,6 +44,11 @@ class Commands(commands.Cog):
             await self.client.change_presence(activity=discord.Game(name=status))
 
     @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandNotFound):
+            await ctx.send("Command not found.")
+
+    @commands.Cog.listener()
     async def on_member_join(self, member):
         channel = self.client.get_channel(773736558259994624)
         await channel.send(f"Welcome {member.mention}! Hope you have a great time in this server!")
@@ -89,6 +94,11 @@ class Commands(commands.Cog):
     async def clear(self, ctx, amount: int):
         await ctx.send(f"Tidying up your server")
         await ctx.channel.purge(limit=amount+2)
+
+    @clear.error
+    async def clear_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("Please specify the amount of messages to delete.")
 
     @commands.command()
     async def stark(self, ctx):
@@ -152,11 +162,6 @@ class Commands(commands.Cog):
         embed.set_thumbnail(url=icon)
 
         await ctx.send(embed=embed)
-
-    @clear.error
-    async def clear_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("Please specify the amount of messages to delete.")
 
 
 def setup(client):
