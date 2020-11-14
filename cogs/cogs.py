@@ -1,7 +1,14 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import random
-import asyncio
+
+statuses = ["I'm Busy",
+            "PYTHON BOT Server",
+            "Not_Thareesh's Stream",
+            "Compiling the code",
+            "Fortnite",
+            "Follow Not_Thareesh on Twitch",
+            "p!"]
 
 
 class Commands(commands.Cog):
@@ -11,45 +18,30 @@ class Commands(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        self.bot_status.start()
         print("Bot is online")
         print(f"Logged in as: {self.client.user}")
-        self.client.loop.create_task(self.ch_pr())
 
-    @commands.Cog.listener()
-    async def ch_pr(self):
-        await self.client.wait_until_ready()
+    @tasks.loop(seconds=30)
+    async def bot_status(self):
+        status = random.choice(statuses)
+        if status == "I'm Busy":
+            await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
 
-        while not self.client.is_closed():
-            statuses = ["Memes",
-                        "I'm Busy",
-                        "PYTHON BOT Server",
-                        "Not_Thareesh's Stream",
-                        "Compiling the code",
-                        "Fortnite",
-                        "Follow Not_Thareesh on Twitch"]
+        elif status in "Follow Not_Thareesh on Twitch":
+            await self.client.change_presence(activity=discord.Streaming(name=status,
+                                                                         url="https://www.twitch.tv/not_thareesh"))
 
-            status = random.choice(statuses)
+        elif status in ("PYTHON BOT Server", "Not_Thareesh's Stream"):
+            await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
+                                                                        name=status))
 
-            if status == "I'm Busy":
-                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
+        elif status in "p!":
+            await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
+                                                                        name=status))
 
-            if status == "Follow Not_Thareesh on Twitch":
-                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Streaming(
-                    name=status, url="https://www.twitch.tv/not_thareesh"))
-
-            if status == "PYTHON BOT Server" or "Not_Thareesh's Stream" or "Memes":
-                await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
-
-            if status == "Fortnite":
-                await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game, name=status)
-
-            if status == "Compiling the code":
-                await self.client.change_presence(activity=discord.Game(name=status))
-
-            else:
-                await self.client.change_presence(activity=discord.Game(name=status))
-
-            await asyncio.sleep(30)
+        elif status in ("Fortnite", "Compiling the code"):
+            await self.client.change_presence(activity=discord.Game(name=status))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -109,14 +101,12 @@ class Commands(commands.Cog):
         await ctx.send("Yeahhh Boii, Its Mr. Stark <:Stark:773581990058131466> ")
 
     @commands.command()
-    async def kick(self, member: discord.Member, *, reason=None):
+    async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         if reason:
-            channel = self.client.get_channel(773736558259994624)
-            await channel.send(f"{member.mention} was kicked for {reason}!")
+            await ctx.send(f"{member.mention} was kicked for {reason}!")
         else:
-            channel = self.client.get_channel(773736558259994624)
-            await channel.send(f"{member.mention} was kicked!")
+            await ctx.send(f"{member.mention} was kicked!")
 
     @commands.command(aliases=['link'])
     async def invite(self, ctx):
@@ -124,11 +114,7 @@ class Commands(commands.Cog):
         await ctx.send(f"Here is an instant invite to your server:\n{link}")
 
     @commands.command()
-    async def ban(self, member: discord.Member, *, reason=None):
-        await member.ban(reason=reason)
-
-    @commands.command()
-    async def ban(self, member: discord.Member, *, reason=None):
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 
     @commands.command()
