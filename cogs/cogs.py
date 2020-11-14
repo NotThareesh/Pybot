@@ -87,14 +87,8 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def clear(self, ctx, amount: int):
-        if amount == 1:
-            delete_amount = 3
-            await ctx.send(f"Tidying up your server")
-            await ctx.channel.purge(limit=delete_amount)
-
-        elif amount > 1:
-            await ctx.send(f"Tidying up your server")
-            await ctx.channel.purge(limit=amount + 2)
+        await ctx.send(f"Tidying up your server")
+        await ctx.channel.purge(limit=amount+2)
 
     @commands.command()
     async def stark(self, ctx):
