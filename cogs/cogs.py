@@ -25,7 +25,7 @@ class Commands(commands.Cog):
     @tasks.loop(seconds=30)
     async def bot_status(self):
         status = random.choice(statuses)
-        if status == "I'm Busy":
+        if status in "I'm Busy":
             await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name=status))
 
         elif status in "Follow Not_Thareesh on Twitch":
@@ -40,7 +40,7 @@ class Commands(commands.Cog):
             await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
                                                                         name=status))
 
-        elif status in ("Fortnite", "Compiling the code"):
+        else:
             await self.client.change_presence(activity=discord.Game(name=status))
 
     @commands.Cog.listener()
@@ -52,6 +52,8 @@ class Commands(commands.Cog):
     async def on_member_join(self, member):
         channel = self.client.get_channel(773736558259994624)
         await channel.send(f"Welcome {member.mention}! Hope you have a great time in this server!")
+        role = discord.utils.get(member.guild.roles, name="Testers")
+        await member.add_roles(role)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -91,6 +93,7 @@ class Commands(commands.Cog):
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
 
     @commands.command()
+    @commands.has_role('Coordinators')
     async def clear(self, ctx, amount: int):
         await ctx.send(f"Tidying up your server")
         await ctx.channel.purge(limit=amount+2)
@@ -105,6 +108,7 @@ class Commands(commands.Cog):
         await ctx.send("Yeahhh Boii, Its Mr. Stark <:Stark:773581990058131466> ")
 
     @commands.command()
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         if reason:
@@ -118,6 +122,7 @@ class Commands(commands.Cog):
         await ctx.send(f"Here is an instant invite to your server:\n{link}")
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 
