@@ -93,7 +93,7 @@ class Commands(commands.Cog):
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
 
     @commands.command()
-    @commands.has_role('Coordinators')
+    @commands.has_role('Co-ordinators')
     async def clear(self, ctx, amount: int):
         await ctx.send(f"Tidying up your server")
         await ctx.channel.purge(limit=amount+2)
